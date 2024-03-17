@@ -1,8 +1,8 @@
 "use client"
 import React from 'react'
 import { useState } from 'react'
-import { Location } from '../../../constents';
-import { prediction } from '../../../api/apis';
+// import { prediction } from '../../../api/apis';
+import { Location } from '../constents'
 import Link from 'next/link';
 
 const Predict = () => {
