@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Location } from '../constents'; // Assuming Location is imported from constents.ts
 
+
 const Predict = () => {
     const [formData, setFormData] = useState({
         location: '',
@@ -13,11 +14,21 @@ const Predict = () => {
         type: ''
     });
 
-    const [prediction, setPrediction] = useState<number | null>(null);
+    const [prediction, setPrediction] = useState<string | null>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
         setFormData({ ...formData, [id]: value });
+    };
+
+    const formatPrediction = (value: number): string => {
+        if (value < 100000) {
+            return `${Math.round(value / 1000)} thousand `;
+        } else if (value < 10000000) {
+            return `${Math.round(value / 100000)} lakh `;
+        } else {
+            return `${Math.round(value / 10000000)} crore +`;
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,7 +53,7 @@ const Predict = () => {
 
             // Update UI with the prediction
             const roundedPrediction = Math.round(predictionData.prediction);
-            setPrediction(roundedPrediction); // Set the prediction state
+            setPrediction(formatPrediction(roundedPrediction)); // Set the formatted prediction string
         } catch (error) {
             console.error(error);
         }
@@ -121,7 +132,7 @@ const Predict = () => {
                                     <button type="submit" className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Predict Price</button>
                                     {prediction !== null && (
                                         <div className="mt-4 text-center">
-                                            <p className="text-gray-900 font-medium">Price:</p>
+                                            <p className="text-gray-900 font-medium">Approx Price:</p>
                                             <p className="text-xl font-semibold text-blue-700">₹ {prediction} </p>
                                         </div>
                                     )}
