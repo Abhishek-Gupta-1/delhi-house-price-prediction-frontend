@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             // Send the rounded-off prediction as the response
             res.status(200).json({ prediction: roundedPrediction });
-        } catch (error) {
+        } catch (error: any) {
             res.status(500).json({ error: error.message });
         }
     } else {
